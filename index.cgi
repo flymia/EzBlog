@@ -53,14 +53,15 @@ echo -e "<div id="wrapper">"
 			counter=$((counter+1))
                         
 			if [ "$counter" -ge "$SHOWPOSTS" ]; then
-				echo -e '<a href="viewarticle.cgi?=test">Weiter</a>';
+				echo -e '<a href="/?start=10">Weiter</a>';
 				break
 			else
                 echo -e "<hr>"
                 currentnumber=${i%%}
                 currentart=$ARTICLES/${i%%}
-                echo -e '<h2><div id="posttitle">'; gettitle $currentart;
-                echo -e '</div></h2></u>
+		rawnumber=$(echo $currentnumber | cut -f 1 -d '.')
+                echo -e "<h2><div id="posttitle"><a href="viewarticle.cgi?article=$rawnumber">"; gettitle $currentart;
+                echo -e '</a></div></h2></u>
                 <p>'
                 
                 if [ "$SHOWDATE" = true ]; then

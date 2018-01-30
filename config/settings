@@ -10,7 +10,7 @@ ENCODED=encoded/
 BLOGTITLE="Example blog"
 
 #Limit to show on first page
-SHOWPOSTS=2
+SHOWPOSTS=250
 
 #Display the author of the article
 SHOWAUTHOR=false
