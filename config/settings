@@ -1,5 +1,19 @@
 #!/bin/bash
+
+#The directory, where the raw markdown articles are saved
 ARTICLES=articles/
+
+#The directory, where the html files are going to be saved
 ENCODED=encoded/
+
+#The blog title, which is used in the header and <title>
 BLOGTITLE="Example blog"
-SHOWPOSTS=5
+
+#Limit to show on first page
+SHOWPOSTS=500
+
+#Display the author of the article
+SHOWAUTHOR=false
+
+#Display the date of the article
+SHOWDATE=true

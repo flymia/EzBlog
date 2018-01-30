@@ -37,10 +37,11 @@ echo -e "<html>
 
 <head>
 <meta charset="utf-8"> <title>$BLOGTITLE - Index</title> 
+<link rel="stylesheet" type="text/css" href="example.css">
 </head>
 
 <body>
-<h1>$BLOGTITLE</h1>"
+<div id="title"><h1>$BLOGTITLE</h1></div><div id="wrapper">"
 
 	for i in $(ls -t $ARTICLES);
 		do
@@ -53,10 +54,22 @@ echo -e "<html>
                 echo -e "<hr>"
                 currentnumber=${i%%}
                 currentart=$ARTICLES/${i%%}
-                echo -e "<h2><u>"; gettitle $currentart;
-                echo -e '</h2></u>
+                echo -e '<h2><div id="posttitle">'; gettitle $currentart;
+                echo -e '</div></h2></u>
                 <p>'
-                getdate $currentart
+                
+                if [ "$SHOWDATE" = true ]; then
+                    echo -e '<div id="postdate">'
+                    getdate $currentart
+                    echo -e '</div>'
+                fi
+                
+                if [ "$SHOWAUTHOR" = true ]; then
+                    echo -e '<div id="postauthor"> <br /> From '
+                    getauthor $currentart
+                    echo -e '</div>';
+                fi
+                
                 
                 echo -e '</p>'			
                 getcontent $currentnumber
@@ -64,6 +77,6 @@ echo -e "<html>
             fi
 
 		done
-echo -e "</body>
+echo -e "</div></body>
 
 </html>"
