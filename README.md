@@ -21,6 +21,6 @@ sudo dnf install pandoc
 * Webserver, that is able to do CGI
 
 # Usage
-* Add article using the example article
+* Add article using the example article (Markdown syntax!)
 * Compile the articles using the compile.sh script
 * Have a look at the webpage
