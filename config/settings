@@ -10,7 +10,7 @@ ENCODED=encoded/
 BLOGTITLE="Example blog"
 
 #Limit to show on first page
-SHOWPOSTS=500
+SHOWPOSTS=2
 
 #Display the author of the article
 SHOWAUTHOR=false
@@ -23,3 +23,34 @@ SUBTITLE="A very special test blog..."
 
 #Display the subtitle or not?
 SHOWSUBTITLE=true
+
+
+########## IMPORTANT STUFF ######### DO NOT DELETE #########
+
+## Special thanks to Parckwart for this code
+## www.parckwart.de
+
+function urldecode {
+	local url_encoded="${1//+/ }"
+	printf '%b' "${url_encoded//%/\\x}"
+}
+
+[ -z "$POST_STRING" -a "$REQUEST_METHOD" = "POST" -a ! -z "$CONTENT_LENGTH" ] && read -n $CONTENT_LENGTH POST_STRING
+
+OIFS=$IFS
+IFS='=&'
+parm_get=($QUERY_STRING)
+parm_post=($POST_STRING)
+IFS=$OIFS
+
+declare -A get
+declare -A post
+
+for ((i=0; i<${#parm_get[@]}; i+=2)); do
+	get[${parm_get[i]}]=$(urldecode ${parm_get[i+1]})
+done
+
+for ((i=0; i<${#parm_post[@]}; i+=2)); do
+	post[${parm_post[i]}]=$(urldecode ${parm_post[i+1]})
+done
+

@@ -3,6 +3,8 @@
 #Sourcing the settings file, to get variables
 source config/settings
 
+toview=${get[article]}
+
 #Cutting out the title after the "title: " segment.
 function gettitle () {
 	echo $(cut -d ":" -f 2 <<< $(cat $1) | head -2 | awk 'NR!~/^(1)$/')
@@ -48,17 +50,10 @@ fi
 
 echo -e "<div id="wrapper">"
 
-	for i in $(ls -t $ARTICLES);
-		do
-			counter=$((counter+1))
-                        
-			if [ "$counter" -ge "$SHOWPOSTS" ]; then
-				echo -e '<a href="viewarticle.cgi?=test">Weiter</a>';
-				break
-			else
                 echo -e "<hr>"
-                currentnumber=${i%%}
-                currentart=$ARTICLES/${i%%}
+                currentnumber=$toview
+                currentart=$ARTICLES/$toview.md
+
                 echo -e '<h2><div id="posttitle">'; gettitle $currentart;
                 echo -e '</div></h2></u>
                 <p>'
@@ -79,9 +74,7 @@ echo -e "<div id="wrapper">"
                 echo -e '</p>'			
                 getcontent $currentnumber
                 echo -e "<hr>"	
-            fi
-
-		done
+   
 echo -e "</div></body>
 
 </html>"
