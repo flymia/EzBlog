@@ -3,7 +3,6 @@
 #Sourcing the settings file, to get variables
 source config/settings
 
-
 #Cutting out the title after the "title: " segment.
 function gettitle () {
 	echo $(cut -d ":" -f 2 <<< $(cat $1) | head -2 | awk 'NR!~/^(1)$/')
@@ -41,7 +40,13 @@ echo -e "<html>
 </head>
 
 <body>
-<div id="title"><h1>$BLOGTITLE</h1></div><div id="wrapper">"
+<div id="title"><h1>$BLOGTITLE</h1></div>"
+
+if [ "$SHOWSUBTITLE" = true ]; then
+	echo -e '<div id="subtitle"><p>' $SUBTITLE '</p></div>';
+fi
+
+echo -e "<div id="wrapper">"
 
 	for i in $(ls -t $ARTICLES);
 		do

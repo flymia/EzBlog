@@ -17,3 +17,9 @@ SHOWAUTHOR=false
 
 #Display the date of the article
 SHOWDATE=true
+
+#Change the subtitle
+SUBTITLE="A very special test blog..."
+
+#Display the subtitle or not?
+SHOWSUBTITLE=true
