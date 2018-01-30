@@ -25,6 +25,10 @@ function getcontent() {
 	cat $ENCODED/$htmlfile
 }
 
+function search() {
+    grep -r $ARTICLES/ -e '$1' | awk '{print $1}' | cut -d ":" -f 1 | uniq
+}
+
 #Doing that for the webserver, so that he knows the mime type to display
 echo -e "Content-type: text/html\\n";
 
