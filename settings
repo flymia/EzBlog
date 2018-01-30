@@ -1,0 +1,5 @@
+#!/bin/bash
+ARTICLES=articles/
+ENCODED=encoded/
+BLOGTITLE="Marcs Special Blog"
+SHOWPOSTS=5
