@@ -1,4 +1,5 @@
 #!/bin/bash
 ARTICLES=articles/
 ENCODED=encoded/
-
+BLOGTITLE="Example blog"
+SHOWPOSTS=5
