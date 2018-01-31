@@ -46,7 +46,7 @@ echo -e "<html>
 
 <head>
 <meta charset="utf-8"> <title>$BLOGTITLE - Index</title> 
-<link rel="stylesheet" type="text/css" href="example.css">
+<link rel="stylesheet" type="text/css" href="styles/$STYLESHEET">
 </head>
 
 <body>
@@ -155,6 +155,12 @@ echo -e "<div id="wrapper">"
     fi
     
 
-echo -e "</div></body>
+echo -e "</div>"
 
-</html>"
+if [ "$SHOWCREDITS" = true ]; then
+	echo '<div id="credits">Made using <a href="https://github.com/flymia/EzBlog">EzBlog</a>.</div>'
+fi
+
+echo '</body>
+
+</html>'

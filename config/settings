@@ -9,6 +9,9 @@ ENCODED=encoded/
 #The blog title, which is used in the header and <title>
 BLOGTITLE="Example blog"
 
+#The stylesheet to use in the styles folder
+STYLESHEET="example.css"
+
 #Limit to show on first page
 SHOWPOSTS=250
 
@@ -33,6 +36,8 @@ SEARCHTEXT="Search..."
 #What text should be displayed on the search button?
 SEARCHBUTTONTEXT="Search"
 
+#Show the credits?
+SHOWCREDITS=true
 
 ########## IMPORTANT STUFF ######### DO NOT DELETE #########
 
