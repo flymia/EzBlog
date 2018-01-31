@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #Sourcing the settings file, to get variables
 source config/settings
@@ -14,148 +14,143 @@ else
 fi
 
 #Cutting out the title after the "title: " segment.
-function gettitle () {
-	head -5 $1 | grep title | cut -d ':' -f 2
+gettitle() {
+	head -5 $1 | grep '^title: ' | cut -d ':' -f 2
 }
 
 #Doing the same for the date
-function getdate() {
-	head -5 $1 | grep date | cut -d ':' -f 2
+getdate() {
+	head -5 $1 | grep '^date: ' | cut -d ':' -f 2
 }
 
 #...and the author
-function getauthor() {
-	head -5 $1 | grep author | cut -d ':' -f 2
+getauthor() {
+	head -5 $1 | grep '^author: ' | cut -d ':' -f 2
 }
 
 #...and the content. This is printing out the contents auf POSTNUMBER.html
-function getcontent() {
-	htmlfile=$(echo $1 | xargs -L 1 basename | cut -f 1 -d '.').html
-	cat $ENCODED/$htmlfile
+getcontent() {
+	cat "$ENCODED/$1.html"
 }
 
-function search() {
+search() {
     grep -ri $ARTICLES/ -e $1 | eval "awk '//{print \$1}'" | cut -d ":" -f 1 | uniq
 }
 
-#Doing that for the webserver, so that he knows the mime type to display
-echo -e "Content-type: text/html\\n";
+#Doing that for the webserver, so that it knows, which MIME type to display
+echo -e 'Content-type: text/html\n'
 
+echo '<!doctype html>
 
-echo -e "<html>
+<html>
 
 <head>
-<meta charset="utf-8"> <title>$BLOGTITLE - Index</title> 
-<link rel="stylesheet" type="text/css" href="styles/$STYLESHEET">
+<meta charset="utf-8"> <title>'"$BLOGTITLE"' - Index</title>
+<link rel="stylesheet" type="text/css" href="styles/'"$STYLESHEET"'">
 </head>
 
 <body>
-<div id="title"><h1><a href="index.cgi">$BLOGTITLE</a></h1></div>"
+<div id="title"><h1><a href="index.cgi">'"$BLOGTITLE"'</a></h1></div>'
 
 #If the subtitle option is enabled, we show it.
 if [ "$SHOWSUBTITLE" = true ]; then
-	echo -e '<div id="subtitle"><p>' $SUBTITLE '</p></div>';
+	echo '<div id="subtitle"><p>'"$SUBTITLE"'</p></div>'
 fi
 
 #If the search option is enabled, we show the search form
 if [ "$SHOWSEARCH" = true ]; then
-    echo -e '<div id="search"><form action="index.cgi?s=" method="GET">
-            <input type="text" name="s" placeholder="'$SEARCHTEXT'"/>
-            <input type="submit" value="'$SEARCHBUTTONTEXT'">
-            </form></div>';
+    echo '<div id="search"><form action="index.cgi?s=" method="GET">
+            <input type="text" name="s" placeholder="'"$SEARCHTEXT"'"/>
+            <input type="submit" value="'"$SEARCHBUTTONTEXT"'">
+            </form></div>'
 fi
         
-echo -e "<div id="wrapper">"
+echo '<div id="wrapper">'
 
     if [ "$search" = true ]; then
      
-        results=$(search $searchterm)
-        resultloop=$(echo $results| tr " " "\n")
+        results=$(search "$searchterm")
+        results=($results)
         
-        if [ -z "$results" ]; then
-            echo -e "<hr><div id="error">No results for found.";
+        if [ ${#results[@]} -eq 0 ]; then
+            echo '<hr><div id="error">No results for found.'
         else
-            echo -e "<hr>"
-            while read line;
-                do 
-                    counter=$((counter+1))
-                                
-                    if [ "$counter" -ge "$SHOWPOSTS" ]; then
-                        echo -e '<a href="/?start=10">Weiter</a>';
+            echo '<hr>'
+            for i in ${results[@]}
+                do
+                    ((counter++))
+                    
+                    if [ "$counter" -gt "$SHOWPOSTS" ]; then
+                        echo '<a href="/?start=10">Weiter</a>'
                         break
                     else
-                        echo -e "<hr>"
-                        currentnumber=${line}
-                        currentart=${line}
-                        rawnumber=$(echo $currentnumber | xargs -L 1 basename | cut -f 1 -d '.')
-                        echo -e "<h2><div id="posttitle"><a href="viewarticle.cgi?article=$rawnumber">"; gettitle $currentart;
-
-                        echo -e '</a></div></h2></u>
-                        <p>'
+                        echo '<hr>'
+                        rawnumber=${i%%.md}
+                        rawnumber=${rawnumber##*/}
+                        echo '<h2 class="posttitle"><a href="viewarticle.cgi?article='"$rawnumber"'">'
+                        gettitle "$i"
+                        echo '</a></h2>'
                         
                         if [ "$SHOWDATE" = true ]; then
-                            echo -e '<div id="postdate">'
-                            getdate $currentart
-                            echo -e '</div>'
+                            echo '<div id="postdate">'
+                            getdate "$i"
+                            echo '</div>'
                         fi
                         
                         if [ "$SHOWAUTHOR" = true ]; then
-                            echo -e '<div id="postauthor"> <br /> From '
-                            getauthor $currentart
-                            echo -e '</div>';
+                            echo '<div id="postauthor"> <br> From '
+                            getauthor "$i"
+                            echo '</div>'
                         fi
                         
-                        
-                        echo -e '</p>'			
-                        getcontent $currentnumber
-                        echo -e "<hr>"	
+                        getcontent "$rawnumber"
+                        echo '<hr>'
                     fi
-            done < <(echo "$resultloop")
+            done
         fi
         
 
 
     else
-    	for i in $(ls -t $ARTICLES);
+    	for i in $(ls -t "$ARTICLES");
 		do
-			counter=$((counter+1))
+			((counter++))
                         
-			if [ "$counter" -ge "$SHOWPOSTS" ]; then
-				echo -e '<a href="/?start=10">Weiter</a>';
+			if [ "$counter" -gt "$SHOWPOSTS" ]; then
+				echo '<a href="/?start=10">Weiter</a>'
 				break
 			else
-                echo -e "<hr>"
-                currentnumber=${i%%}
-                currentart=$ARTICLES/${i%%}
-                rawnumber=$(echo $currentnumber | cut -f 1 -d '.')
-                echo -e "<h2><div id="posttitle"><a href="viewarticle.cgi?article=$rawnumber">"; gettitle $currentart;
+                echo '<hr>'
+                currentart="$ARTICLES/$i"
+                rawnumber=${i%%.md}
+                rawnumber=${rawnumber##*/}
+                echo '<h2 class="posttitle"><a href="viewarticle.cgi?article='"$rawnumber"'">'
+                gettitle "$currentart"
 
-                echo -e '</a></div></h2></u>
+                echo '</a></h2>
                 <p>'
                 
                 if [ "$SHOWDATE" = true ]; then
-                    echo -e '<div id="postdate">'
-                    getdate $currentart
-                    echo -e '</div>'
+                    echo '<div id="postdate">'
+                    getdate "$currentart"
+                    echo '</div>'
                 fi
                 
                 if [ "$SHOWAUTHOR" = true ]; then
-                    echo -e '<div id="postauthor"> <br /> From '
-                    getauthor $currentart
-                    echo -e '</div>';
+                    echo '<div id="postauthor"> <br> From '
+                    getauthor "$currentart"
+                    echo '</div>'
                 fi
                 
-                
-                echo -e '</p>'			
-                getcontent $currentnumber
-                echo -e "<hr>"	
+                getcontent "$rawnumber"
+                echo '<hr>'
             fi
 
 		done
     fi
     
 
-echo -e "</div>"
+echo '</div>'
 
 if [ "$SHOWCREDITS" = true ]; then
 	echo '<div id="credits">Made using <a href="https://github.com/flymia/EzBlog">EzBlog</a>.</div>'
