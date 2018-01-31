@@ -7,17 +7,17 @@ toview=${get[article]}
 
 #Cutting out the title after the "title: " segment.
 function gettitle () {
-	echo $(cut -d ":" -f 2 <<< $(cat $1) | head -2 | awk 'NR!~/^(1)$/')
+	head -5 $1 | grep title | cut -d ':' -f 2
 }
 
 #Doing the same for the date
 function getdate() {
-	cut -d ":" -f 2 <<< $(cat $1) | head -3 | awk 'NR!~/^(1)$/' | tail -n +2
+	head -5 $1 | grep date | cut -d ':' -f 2
 }
 
 #...and the author
 function getauthor() {
-	cut -d ":" -f 2 <<< $(cat $1) | head -4 | awk 'NR!~/^(1)$/' | tail -n +3
+	head -5 $1 | grep author | cut -d ':' -f 2
 }
 
 #...and the content. This is printing out the contents auf POSTNUMBER.html
@@ -27,7 +27,7 @@ function getcontent() {
 }
 
 function search() {
-    grep -r $ARTICLES/ -e '$1' | awk '{print $1}' | cut -d ":" -f 1 | uniq
+    grep -ri $ARTICLES/ -e '$1' | awk '{print $1}' | cut -d ":" -f 1 | uniq
 }
 
 #Doing that for the webserver, so that he knows the mime type to display
@@ -42,10 +42,18 @@ echo -e "<html>
 </head>
 
 <body>
-<div id="title"><h1>$BLOGTITLE</h1></div>"
+<div id="title"><h1><a href="index.cgi">$BLOGTITLE</a></h1></div>"
 
 if [ "$SHOWSUBTITLE" = true ]; then
 	echo -e '<div id="subtitle"><p>' $SUBTITLE '</p></div>';
+fi
+
+#If the search option is enabled, we show the search form
+if [ "$SHOWSEARCH" = true ]; then
+    echo -e '<div id="search"><form action="index.cgi?s=" method="GET">
+            <input type="text" name="s" placeholder="'$SEARCHTEXT'"/>
+            <input type="submit" value="'$SEARCHBUTTONTEXT'">
+            </form></div>';
 fi
 
 echo -e "<div id="wrapper">"

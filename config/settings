@@ -24,6 +24,15 @@ SUBTITLE="A very special test blog..."
 #Display the subtitle or not?
 SHOWSUBTITLE=true
 
+#Display the search bar?
+SHOWSEARCH=true
+
+#What text should be displayed as placeholder in the search box?
+SEARCHTEXT="Search..."
+
+#What text should be displayed on the search button?
+SEARCHBUTTONTEXT="Search"
+
 
 ########## IMPORTANT STUFF ######### DO NOT DELETE #########
 
