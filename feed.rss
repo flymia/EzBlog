@@ -5,10 +5,11 @@
 		<channel>
 			<title>Example blog</title>
 			<link>http://www.example.net/</link>
-			<lastBuildDate>Thu, 01 Feb 2018 23:28:34 +0100</lastBuildDate>
+			<lastBuildDate>Thu, 01 Feb 2018 23:40:30 +0100</lastBuildDate>
 			<atom:link href="http://www.example.net/feed.rss" rel="self" type="application/rss+xml" />
 	
 <description>A very special test blog...</description>
+<generator>EzBlog</generator>
 <item>
 <title> Example blog entry</title>
 <link>http://www.example.net/viewarticle.cgi?article=1</link>

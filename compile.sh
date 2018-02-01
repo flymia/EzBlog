@@ -71,6 +71,8 @@ if [[ "$RSS" == true ]] && [ "$RSSFILE" ]; then
 		echo "<description>$SUBTITLE</description>" >> "$RSSFILE"
 	fi
 	
+	[[ "$SHOWCREDITS" == true ]] && echo '<generator>EzBlog</generator>' >> "$RSSFILE"
+	
 	ls -1t "$ARTICLES" | head -"$SHOWRSSPOSTS" | while read i; do
 		mdhead="$(head -5 "$ARTICLES/$i")"
 		rawnumber="${i%%.md}"
