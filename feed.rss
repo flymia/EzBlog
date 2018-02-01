@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+		<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+		
+		<channel>
+			<title>Example blog</title>
+			<link>http://www.example.net/</link>
+			<lastBuildDate>Thu, 01 Feb 2018 23:28:34 +0100</lastBuildDate>
+			<atom:link href="http://www.example.net/feed.rss" rel="self" type="application/rss+xml" />
+	
+<description>A very special test blog...</description>
+<item>
+<title> Example blog entry</title>
+<link>http://www.example.net/viewarticle.cgi?article=1</link>
+<guid>http://www.example.net/viewarticle.cgi?article=1</guid>
+<pubDate>Thu, 22 Feb 2018 00:00:00 +0100</pubDate>
+<description><![CDATA[<p>This is a great example blog entry. You have to use the markdown syntax here. So you can make text <strong>bold</strong> or <em>italic</em>. Whatever you want. You can also add</p>
+<blockquote>
+<p>A qoute or a block qoute.</p>
+</blockquote>
+<div class="figure">
+<img src="http://via.placeholder.com/350x150" alt="It is also possible to add pictures!" />
+<p class="caption">It is also possible to add pictures!</p>
+</div>
+<p>But whatever you do: Do <strong>NOT</strong> forget to compile this text using the compile script, included in the download!</p>
+<p>Happy writing!</p>]]></description>
+</item>
+
+			</channel>
+		</rss>
+	
