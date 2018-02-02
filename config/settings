@@ -36,6 +36,21 @@ SEARCHTEXT="Search..."
 #What text should be displayed on the search button?
 SEARCHBUTTONTEXT="Search"
 
+#Which domain name can be used to reach the blog (i.e. "www.example.net")?
+VHOST="www.example.net"
+
+#Should the blog be reached via HTTPS?
+HTTPSENABLED=false
+
+#Do you wish an RSS feed to be provided?
+RSS=true
+
+#File location for the RSS feed
+RSSFILE=feed.rss
+
+#Amount of articles in RSS feed
+SHOWRSSPOSTS=10
+
 #Show the credits?
 SHOWCREDITS=true
 

@@ -51,3 +51,52 @@ case "$1" in
         done
     ;;
 esac
+
+if [[ "$RSS" == true ]] && [ "$RSSFILE" ]; then
+	blogurl="http$([[ "$HTTPSENABLED" == true ]] && echo -n s)://$VHOST/"
+	
+	echo '<?xml version="1.0" encoding="UTF-8"?>' > "$RSSFILE"
+	
+	echo '
+		<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+		
+		<channel>
+			<title>'"$BLOGTITLE"'</title>
+			<link>'"$blogurl"'</link>
+			<lastBuildDate>'"$(date -R)"'</lastBuildDate>
+			<atom:link href="'"${blogurl}$RSSFILE"'" rel="self" type="application/rss+xml" />
+	' >> "$RSSFILE"
+	
+	if [[ "$SHOWSUBTITLE" == true ]] && [ "$SUBTITLE" ]; then
+		echo "<description>$SUBTITLE</description>" >> "$RSSFILE"
+	fi
+	
+	[[ "$SHOWCREDITS" == true ]] && echo '<generator>EzBlog</generator>' >> "$RSSFILE"
+	
+	ls -1t "$ARTICLES" | head -"$SHOWRSSPOSTS" | while read i; do
+		mdhead="$(head -5 "$ARTICLES/$i")"
+		rawnumber="${i%%.md}"
+		
+		echo '<item>' >> "$RSSFILE"
+		echo "<title>$(grep '^title: ' <<< "$mdhead" | cut -d: -f2)</title>" >> "$RSSFILE"
+		echo "<link>${blogurl}viewarticle.cgi?article=$rawnumber</link>" >> "$RSSFILE"
+		echo "<guid>${blogurl}viewarticle.cgi?article=$rawnumber</guid>" >> "$RSSFILE"
+		
+		if [[ "$SHOWDATE" == true ]]; then
+			date="$(grep '^date: ' <<< "$mdhead" | cut -d: -f2)"
+			rfc2822date="$(date -Rd "${date//-/\/}")"
+			echo "<pubDate>$rfc2822date</pubDate>" >> "$RSSFILE"
+		fi
+		
+		[[ "$SHOWAUTHOR" == true ]] && echo "<title>$(grep '^author: ' <<< "$mdhead" | cut -d: -f2)</title>" >> "$RSSFILE"
+		
+		echo "<description><![CDATA[$(<$ENCODED/$rawnumber.html)]]></description>" >> "$RSSFILE"
+		
+		echo '</item>' >> "$RSSFILE"
+	done
+	
+	echo '
+			</channel>
+		</rss>
+	'  >> "$RSSFILE"
+fi
