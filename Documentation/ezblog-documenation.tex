@@ -1,0 +1,144 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\title{EzBlog Documentation}
+
+\date{02-02-2018}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+This document will show you the basic usage of EzBlog. Found bugs or got something to complain? Tell me! \href{mailto:ventor@ventora.net}{ventor@ventora.net} 
+
+\section{Overview}
+
+EzBlog is a blogging software written in Bash. This way it is very light weight and can be used for serving a blog on a small server. EzBlog does not require a database, because every article is saved in a text file. Every article includes date, author and a title, which is read out by the "compiler" or "parser" that converts the markdown files into an usable HTML document. It is licensed under GPL3 and can be modified and shared, because it is free software.
+
+\subsection{Features}
+
+Here is a brief overview of what EzBlog \textbf{can} do for you:
+
+\begin{itemize}
+\item Serve a light weight blog
+\item Writing articles using the command line (for example via SSH)
+\item Using markdown syntax for writing articles
+\item Easy customization to the css stylesheet
+\item Many configuration options
+\item Generate an RSS feed
+\end{itemize}
+
+\subsection{How it works}
+
+EzBlog consists of three main scripts. All of those scripts have a specific function.
+
+\begin{itemize}
+\item \hyperref[sec:index.cgi]{index.cgi}
+\item \hyperref[sec:viewarticle.cgi]{viewarticle.cgi}
+\item \hyperref[sec:compile.sh]{compile.sh}
+\end{itemize}
+
+The following descriptions are very technical. Only people with a bit of "bash knowledge" will understand those terms.
+
+\subsubsection{index.cgi}
+\label{sec:index.cgi}
+
+This is the main file, that you will see when you load EzBlog. It includes the main logic for "drawing" the webpage. Basically, index.cgi starts a loop, looking for all files in the articles/ folder. If it finds an article, it will display the metadata of the article by using a few functions. Those functions use grep and cut (GNU utilities) for getting the required data. The only thing that those commands can see are the first 5 lines of the article.
+
+If index.cgi finds a markdown (.md) file in the articles/ folder, it looks for a corresponding html file in the encoded/ folder. The html files are generated using \hyperref[sec:compile.sh]{the compile.sh script}.
+
+The script also includes a search function. The browser requests the following:
+\begin{lstlisting}
+index.cgi?s=test
+\end{lstlisting}
+
+We use everything behind the ?s to make a quick grep command, which returns all the files, which include the search term. Now index.cgi is using the same loop to go through the search results and displaying the corresponding articles.
+
+\subsubsection{viewarticle.cgi}
+\label{sec:viewarticle.cgi}
+
+The viewarticle.cgi script needs an "GET" argument in the browser. It checks for the argument. For example the browser requests the following: 
+\begin{lstlisting}
+viewarticle.cgi?article=1 
+\end{lstlisting}
+
+The script just reads out the corresponding data of the requested article. 
+
+\subsubsection{compile.sh}
+\label{sec:compile.sh}
+
+compile.sh \hyperref[sec:req]{needs pandoc} to run. It simply takes the markdown file in the articles folder and exports an html file to the encoded directory. As pandoc does not use the first 5 lines, it does work without any configuration. You only get the "raw" html file, which is good.
+
+This way index.cgi can display the contents of the article by displaying the html file.
+
+It is also planned that compile.sh gets a live mode feature. This enables you to run compile.sh in the background and the script is constantly looking for changes in the articles/ directory.
+
+\section{Installation}
+\subsection{Requirements}
+\label{sec:req}
+
+EzBlog only requires a webserver and the "compiler/parser" pandoc. 
+
+\begin{itemize}
+\item Bash
+\item A webserver, capable of serving Bash-CGI documents (I'm using apache2)
+\item pandoc
+\end{itemize}
+
+If you want to use the live mode of the compiler script, you need to download the inotify-tools from your repository.
+
+\textbf{Optional:}
+\begin{itemize}
+\item inotifywait (Package inotify-tools)
+\end{itemize}
+
+\subsection{First setup}
+
+\textbf{Be sure to enable CGI on your webserver!!}
+
+Manuals can be found here:
+
+\begin{itemize}
+\item \href{https://httpd.apache.org/docs/2.4/howto/cgi.html}{Configure it on apache2}
+\end{itemize}
+
+\subsubsection{Download \& configure EzBlog}
+
+You can download EzBlog from the \href{https://github.com/flymia/EzBlog}{GitHub page}, or by using git itself.
+
+Here is an example for installing EzBlog using a Debian based system.
+\begin{lstlisting}
+#Installing dependencies
+sudo apt install pandoc inotify-tools
+#Change to a public webserver directory
+cd /var/www/html/blog/
+#Cloning the repo
+git clone https://github.com/flymia/EzBlog
+#Move the files to the directory
+mv /var/www/html/blog/EzBlog/* /var/www/html/blog
+#Configure the blog using a text editor
+nano /var/www/html/blog/config/settings
+\end{lstlisting}
+
+The settings file should be self explanatory. Just edit the file to your needs. For example, change the title and subtitle of your blog.
+
+\subsection{Your first article}
+
+It's time for your first article.
+
+\section{Customization}
+
+
+
+
+\end{document}
