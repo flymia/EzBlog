@@ -117,28 +117,81 @@ Manuals can be found here:
 You can download EzBlog from the \href{https://github.com/flymia/EzBlog}{GitHub page}, or by using git itself.
 
 Here is an example for installing EzBlog using a Debian based system.
-\begin{lstlisting}
+\begin{verbatim}
 #Installing dependencies
 sudo apt install pandoc inotify-tools
+
 #Change to a public webserver directory
 cd /var/www/html/blog/
+
 #Cloning the repo
 git clone https://github.com/flymia/EzBlog
+
 #Move the files to the directory
 mv /var/www/html/blog/EzBlog/* /var/www/html/blog
+
 #Configure the blog using a text editor
 nano /var/www/html/blog/config/settings
-\end{lstlisting}
+\end{verbatim}
 
 The settings file should be self explanatory. Just edit the file to your needs. For example, change the title and subtitle of your blog.
 
 \subsection{Your first article}
 
-It's time for your first article.
+It's time for your first article. Head over to the articles directory and make a new file called 1.md using your favorite text editor.
+
+\begin{verbatim}
+cd articles
+vim 1.md #I'm using vim. You can use every other editor you wish.
+\end{verbatim}
+
+\textbf{Now comes the important stuff}: It is essential to format the first lines correctly. These lines are read out by the index.cgi file and need to be correct! The default scheme of an article looks like this:
+
+\begin{verbatim}
+---
+title: My cool blog post
+author: Max
+date: 22. January, 2018
+---
+
+This is the content area.
+
+\end{verbatim}
+
+When you finished writing your article, save the file.
+
+The next step is to compile/parse the article to HTML. You'll find compile.sh in the EzBlog root directory. Just run the command to compile the new article.
+
+\begin{verbatim}
+./compile.sh
+\end{verbatim}
+
+You also can recompile every article, which is useful on the first setup.
+
+\begin{verbatim}
+./compile.sh --recompile
+\end{verbatim}
+
+You can have a look at the encoded/ folder now. The compile script exported a HTML document now. The index.cgi page should now display the new entry in the browser.
+
+\subsection{Summary}
+
+\begin{enumerate}
+\item Download EzBlog
+\item Configure the settings file
+\item Create a new article using a text editor in the articles directory
+\item Compile the new article using compile.sh
+\item View the webpage
+\end{enumerate}
 
 \section{Customization}
 
+It is also possible to customize the CSS style to your needs. Copy the default style sheet in the styles/ folder and start working on a new one!
 
+\section{Special Thanks}
 
+I want to thank everyone who worked on my previous project, \href{https://github.com/flymia/SpotCurrent}{SpotCurrent}.
+
+And a special thanks to \href{https://www.parckwart.de}{Parckwart}, who showed me the wonderful world of Bash cgi and helped me with a lot of problems.
 
 \end{document}
