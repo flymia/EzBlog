@@ -120,7 +120,7 @@ echo '<div id="wrapper">'
 				echo '<a href="/?start=10">Weiter</a>'
 				break
 			else
-                echo '<hr>'
+                echo '<hr><div class=blogpost">'
                 currentart="$ARTICLES/$i"
                 rawnumber=${i%%.md}
                 rawnumber=${rawnumber##*/}
@@ -143,7 +143,7 @@ echo '<div id="wrapper">'
                 fi
                 
                 getcontent "$rawnumber"
-                echo '<hr>'
+                echo '<hr></div>'
             fi
 
 		done
