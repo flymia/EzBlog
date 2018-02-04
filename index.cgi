@@ -75,7 +75,7 @@ echo '<div id="wrapper">'
         if [ ${#results[@]} -eq 0 ]; then
             echo '<hr><div id="error">No results for found.'
         else
-            echo '<hr>'
+            echo '<hr><div class="blogpost">'
             for i in ${results[@]}
                 do
                     ((counter++))
@@ -104,7 +104,7 @@ echo '<div id="wrapper">'
                         fi
                         
                         getcontent "$rawnumber"
-                        echo '<hr>'
+                        echo '<hr></div>'
                     fi
             done
         fi
