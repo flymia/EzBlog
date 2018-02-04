@@ -58,7 +58,7 @@ fi
 
 echo -e "<div id="wrapper">"
 
-                echo -e "<hr>"
+                echo '<hr><div class="blogpost"'
                 currentnumber=$toview
                 currentart=$ARTICLES/$toview.md
 
@@ -81,7 +81,7 @@ echo -e "<div id="wrapper">"
                 
                 echo -e '</p>'			
                 getcontent $currentnumber
-                echo -e "<hr>"	
+                echo '<hr></div>'	
 echo -e "</div>"
 
 if [ "$SHOWCREDITS" = true ]; then
