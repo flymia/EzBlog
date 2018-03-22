@@ -6,7 +6,7 @@ source config/settings
 #Getting the search term, if there is one
 searchterm=${get[s]}
 
-
+#If the user entered a search term the search boolean is set either to false or true
 if [ -z "$searchterm" ]; then
     search=false
 else
@@ -33,6 +33,7 @@ getcontent() {
 	cat "$ENCODED/$1.html"
 }
 
+#Main search function using a simple recursive grep
 search() {
     grep -ri $ARTICLES/ -e $1 | eval "awk '//{print \$1}'" | cut -d ":" -f 1 | uniq
 }
@@ -64,22 +65,22 @@ if [ "$SHOWSEARCH" = true ]; then
             <input type="submit" value="'"$SEARCHBUTTONTEXT"'">
             </form></div>'
 fi
-        
+
 echo '<div id="wrapper">'
 
     if [ "$search" = true ]; then
-     
+
         results=$(search "$searchterm")
         results=($results)
-        
+
         if [ ${#results[@]} -eq 0 ]; then
-            echo '<hr><div id="error">No results for found.'
+            echo '<div id="error">No results for ' $searchterm 'found.<hr>'
         else
-            echo '<hr><div class="blogpost">'
+            echo '<div class="blogpost">'
             for i in ${results[@]}
                 do
                     ((counter++))
-                    
+
                     if [ "$counter" -gt "$SHOWPOSTS" ]; then
                         echo '<a href="/?start=10">Weiter</a>'
                         break
@@ -90,37 +91,37 @@ echo '<div id="wrapper">'
                         echo '<h2 class="posttitle"><a href="viewarticle.cgi?article='"$rawnumber"'">'
                         gettitle "$i"
                         echo '</a></h2>'
-                        
+
                         if [ "$SHOWDATE" = true ]; then
                             echo '<div id="postdate">'
                             getdate "$i"
                             echo '</div>'
                         fi
-                        
+
                         if [ "$SHOWAUTHOR" = true ]; then
                             echo '<div id="postauthor"> <br> From '
                             getauthor "$i"
                             echo '</div>'
                         fi
-                        
+
                         getcontent "$rawnumber"
                         echo '<hr></div>'
                     fi
             done
         fi
-        
+
 
 
     else
     	for i in $(ls -t "$ARTICLES");
 		do
 			((counter++))
-                        
+
 			if [ "$counter" -gt "$SHOWPOSTS" ]; then
 				echo '<a href="/?start=10">Weiter</a>'
 				break
 			else
-                echo '<hr><div class=blogpost">'
+                echo '<div class=blogpost">'
                 currentart="$ARTICLES/$i"
                 rawnumber=${i%%.md}
                 rawnumber=${rawnumber##*/}
@@ -129,26 +130,26 @@ echo '<div id="wrapper">'
 
                 echo '</a></h2>
                 <p>'
-                
+
                 if [ "$SHOWDATE" = true ]; then
                     echo '<div id="postdate">'
                     getdate "$currentart"
                     echo '</div>'
                 fi
-                
+
                 if [ "$SHOWAUTHOR" = true ]; then
                     echo '<div id="postauthor"> <br> From '
                     getauthor "$currentart"
                     echo '</div>'
                 fi
-                
+
                 getcontent "$rawnumber"
                 echo '<hr></div>'
             fi
 
 		done
     fi
-    
+
 
 echo '</div>'
 
