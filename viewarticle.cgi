@@ -34,7 +34,7 @@ function search() {
 echo -e "Content-type: text/html\\n";
 
 
-echo -e "<html>
+echo "<html>
 
 <head>
 <meta charset="utf-8"> <title>$BLOGTITLE - Artikel</title> 
@@ -45,44 +45,44 @@ echo -e "<html>
 <div id="title"><h1><a href="index.cgi">$BLOGTITLE</a></h1></div>"
 
 if [ "$SHOWSUBTITLE" = true ]; then
-	echo -e '<div id="subtitle"><p>' $SUBTITLE '</p></div>';
+	echo '<div id="subtitle"><p>' $SUBTITLE '</p></div>';
 fi
 
 #If the search option is enabled, we show the search form
 if [ "$SHOWSEARCH" = true ]; then
-    echo -e '<div id="search"><form action="index.cgi?s=" method="GET">
+    echo '<div id="search"><form action="index.cgi?s=" method="GET">
             <input type="text" name="s" placeholder="'$SEARCHTEXT'"/>
             <input type="submit" value="'$SEARCHBUTTONTEXT'">
             </form></div>';
 fi
 
-echo -e "<div id="wrapper">"
+echo "<div id="wrapper">"
 
-                echo '<hr><div class="blogpost"'
+                echo '<hr><div class="blogpost">'
                 currentnumber=$toview
                 currentart=$ARTICLES/$toview.md
 
-                echo -e '<h2><div id="posttitle">'; gettitle $currentart;
-                echo -e '</div></h2></u>
+                echo '<h2>'; gettitle $currentart;
+                echo '</div></h2></u>
                 <p>'
                 
                 if [ "$SHOWDATE" = true ]; then
-                    echo -e '<div id="postdate">'
+                    echo '<div id="postdate">'
                     getdate $currentart
-                    echo -e '</div>'
+                    echo '</div>'
                 fi
                 
                 if [ "$SHOWAUTHOR" = true ]; then
-                    echo -e '<div id="postauthor"> <br /> From '
+                    echo '<div id="postauthor"> <br /> From '
                     getauthor $currentart
-                    echo -e '</div>';
+                    echo '</div>';
                 fi
                 
                 
-                echo -e '</p>'			
+                echo '</p>'			
                 getcontent $currentnumber
                 echo '<hr></div>'	
-echo -e "</div>"
+echo "</div>"
 
 if [ "$SHOWCREDITS" = true ]; then
         echo '<div id="credits">Made using <a href="https://github.com/flymia/EzBlog">EzBlog</a>.</div>'
