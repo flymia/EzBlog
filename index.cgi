@@ -66,8 +66,11 @@ if [ "$SHOWSEARCH" = true ]; then
             </form></div>'
 fi
 
+
+#Wrapper for all the blogposts
 echo '<div id="wrapper">'
 
+#When the search is used
     if [ "$search" = true ]; then
 
         results=$(search "$searchterm")
@@ -76,6 +79,8 @@ echo '<div id="wrapper">'
         if [ ${#results[@]} -eq 0 ]; then
             echo '<div id="error">No results for ' $searchterm 'found.<hr>'
         else
+
+            #Display the searched blogposts in a loop
             echo '<div class="blogpost">'
             for i in ${results[@]}
                 do
@@ -85,12 +90,18 @@ echo '<div id="wrapper">'
                         echo '<a href="/?start=10">Weiter</a>'
                         break
                     else
-                        echo '<hr>'
                         rawnumber=${i%%.md}
                         rawnumber=${rawnumber##*/}
-                        echo '<h2 class="posttitle"><a href="viewarticle.cgi?article='"$rawnumber"'">'
+                        echo '<h2 class="posttitle">'
                         gettitle "$i"
+
                         echo '</a></h2>'
+                        
+
+                        if [ "$SHOWPERMLINKS" = true ]; then
+                            echo '<a href="viewarticle.cgi?article='"$rawnumber"'">[Permalink]</a><p>'
+                        fi
+               
 
                         if [ "$SHOWDATE" = true ]; then
                             echo '<div id="postdate">'
@@ -109,9 +120,6 @@ echo '<div id="wrapper">'
                     fi
             done
         fi
-
-
-
     else
     	for i in $(ls -t "$ARTICLES");
 		do
@@ -125,12 +133,16 @@ echo '<div id="wrapper">'
                 currentart="$ARTICLES/$i"
                 rawnumber=${i%%.md}
                 rawnumber=${rawnumber##*/}
-                echo '<h2 class="posttitle"><a href="viewarticle.cgi?article='"$rawnumber"'">'
+                echo '<h2 class="posttitle">'
                 gettitle "$currentart"
 
-                echo '</a></h2>
-                <p>'
+                echo '</a></h2>'
+                
 
+                if [ "$SHOWPERMLINKS" = true ]; then
+                    echo '<a href="viewarticle.cgi?article='"$rawnumber"'">[Permalink]</a><p>'
+                fi
+               
                 if [ "$SHOWDATE" = true ]; then
                     echo '<div id="postdate">'
                     getdate "$currentart"
@@ -149,7 +161,6 @@ echo '<div id="wrapper">'
 
 		done
     fi
-
 
 echo '</div>'
 

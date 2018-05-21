@@ -20,3 +20,15 @@ a:hover {color: lightblue; }
 }
 
 .posttitle h2 { margin: 5px auto 2px auto; }
+
+
+#error {
+	color: red;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#credits {
+    text-align: center;
+    font-size: 12px;
+}

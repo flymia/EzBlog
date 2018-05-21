@@ -10,7 +10,7 @@ ENCODED=encoded/
 BLOGTITLE="Example blog"
 
 #The stylesheet to use in the styles folder
-STYLESHEET="example.css"
+STYLESHEET="lb.css"
 
 #Limit to show on first page
 SHOWPOSTS=250
@@ -53,6 +53,8 @@ SHOWRSSPOSTS=10
 
 #Show the credits?
 SHOWCREDITS=true
+
+SHOWPERMLINKS=true
 
 ########## IMPORTANT STUFF ######### DO NOT DELETE #########
 
