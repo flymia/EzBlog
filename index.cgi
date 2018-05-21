@@ -121,7 +121,7 @@ echo '<div id="wrapper">'
 				echo '<a href="/?start=10">Weiter</a>'
 				break
 			else
-                echo '<div class=blogpost">'
+                echo '<div class="blogpost">'
                 currentart="$ARTICLES/$i"
                 rawnumber=${i%%.md}
                 rawnumber=${rawnumber##*/}
