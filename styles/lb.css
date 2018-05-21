@@ -1,5 +1,4 @@
 html {
-    font-family: Arial, sans-serif;
     max-width: 1050px;
 	margin-left: auto;
 	margin-right: auto;
@@ -8,29 +7,9 @@ html {
 	padding-bottom: 200px;
 }
 
-#title {
-    font-size: 15px;
-    text-align: center;
-}
+a {color: royalblue; }
+a:hover {color: lightblue; }
 
-#title a {
-    text-decoration: none;
-    color: black;
-}
-
-#wrapper {
-    text-align: block;
-    padding: 20px;
-    margin: 50px;
-}
-
-#postdate {
-
-}
-
-#postauthor {
-
-}
 
 .blogpost {
     border-left: 10px solid darkslategray;
@@ -40,24 +19,4 @@ html {
 	background-color: #eee;
 }
 
-.posttitle {
-    text-decoration: none;
-}
-
-.posttitle a {
-    text-decoration: none;
-    color: black;
-}
-
-#subtitle {
-    text-align: center;
-}
-
-#search {
-    text-align: center;
-}
-
-#credits {
-    text-align: center;
-    font-size: 12px;
-}
+.posttitle h2 { margin: 5px auto 2px auto; }
