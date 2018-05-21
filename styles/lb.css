@@ -1,0 +1,63 @@
+html {
+    font-family: Arial, sans-serif;
+    max-width: 1050px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	color: #333;
+	padding-bottom: 200px;
+}
+
+#title {
+    font-size: 15px;
+    text-align: center;
+}
+
+#title a {
+    text-decoration: none;
+    color: black;
+}
+
+#wrapper {
+    text-align: block;
+    padding: 20px;
+    margin: 50px;
+}
+
+#postdate {
+
+}
+
+#postauthor {
+
+}
+
+.blogpost {
+    border-left: 10px solid darkslategray;
+	padding: 0px 10px 0px 10px;
+	border-radius: 0 30px 30px 0;
+	margin-bottom: 20px;
+	background-color: #eee;
+}
+
+.posttitle {
+    text-decoration: none;
+}
+
+.posttitle a {
+    text-decoration: none;
+    color: black;
+}
+
+#subtitle {
+    text-align: center;
+}
+
+#search {
+    text-align: center;
+}
+
+#credits {
+    text-align: center;
+    font-size: 12px;
+}

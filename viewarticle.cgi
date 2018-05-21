@@ -61,7 +61,7 @@ echo "<div id="wrapper">"
                 currentart=$ARTICLES/$toview.md
 
                 echo '<h2>'; gettitle $currentart;
-                echo '</div></h2></u>
+                echo '</h2></u>
                 <p>'
 
                 if [ "$SHOWDATE" = true ]; then
@@ -79,7 +79,7 @@ echo "<div id="wrapper">"
 
                 echo '</p>'
                 getcontent $currentnumber
-                echo '<hr></div>'
+                echo '<hr></div></div>'
 echo "</div>"
 
 if [ "$SHOWCREDITS" = true ]; then
