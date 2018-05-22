@@ -81,7 +81,6 @@ echo '<div id="wrapper">'
         else
 
             #Display the searched blogposts in a loop
-            echo '<div class="blogpost">'
             for i in ${results[@]}
                 do
                     ((counter++))
@@ -90,6 +89,8 @@ echo '<div id="wrapper">'
                         echo '<a href="/?start=10">Weiter</a>'
                         break
                     else
+	                echo '<div class="blogpost">'
+
                         rawnumber=${i%%.md}
                         rawnumber=${rawnumber##*/}
                         echo '<h2 class="posttitle">'
