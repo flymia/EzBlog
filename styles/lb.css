@@ -19,6 +19,13 @@ a:hover {color: lightblue; }
 	background-color: #eee;
 }
 
+.blogpost img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+
+
 .posttitle h2 { margin: 5px auto 2px auto; }
 
 
